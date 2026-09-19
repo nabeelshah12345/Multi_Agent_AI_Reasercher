@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from pipeline import research_pipeline, refine_report, run_search, run_read, run_write, run_score
+from Backend.pipeline import research_pipeline, refine_report, run_search, run_read, run_write, run_score
 
 
 app = FastAPI(title="Multi-Agent Research API")

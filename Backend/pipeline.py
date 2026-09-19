@@ -1,5 +1,5 @@
 
-from agents import search_agent, reader_agent, writer_chain, score_chain, refine_chain
+from Backend.agents import search_agent, reader_agent, writer_chain, score_chain, refine_chain
 import re
 
 def run_search(topic: str) -> str:
