@@ -1,0 +1,26 @@
+# LangChain
+langchain
+langchain-core
+langchain-community
+langgraph
+
+# Groq
+langchain-groq
+groq
+
+# Tavily
+langchain-tavily
+tavily-python
+
+# Web Scraping
+beautifulsoup4
+requests
+
+# Environment Variables
+python-dotenv
+rich
+
+# openai/gpt-oss-120b   (Groq model)
+
+fastapi
+fastapi[standard]
