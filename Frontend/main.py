@@ -2,7 +2,31 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000"   # FastAPI jahan run ho raha hai
+API_URL = "https://multi-agent-ai-research-nabeelshah12345s-projects.vercel.app"   # FastAPI jahan run ho raha hai
+REQUEST_TIMEOUT_SECONDS = 90
+
+
+def post_api(path, payload):
+    """Call the backend and surface its actual error message in the UI."""
+    response = requests.post(
+        f"{API_URL}{path}",
+        json=payload,
+        timeout=REQUEST_TIMEOUT_SECONDS,
+    )
+
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as exc:
+        try:
+            detail = response.json().get("detail")
+        except ValueError:
+            detail = response.text[:300]
+        raise RuntimeError(detail or f"Backend request failed ({response.status_code}).") from exc
+
+    try:
+        return response.json()
+    except ValueError as exc:
+        raise RuntimeError("The backend returned an invalid response.") from exc
 
 st.set_page_config(page_title="BrainForge", layout="wide", page_icon="🧠")
 
@@ -180,22 +204,26 @@ if "report" not in st.session_state:
 if run_clicked and topic:
     try:
         render_step(step1, "01", "Search Agent", "Gathers recent web information", "running")
-        r1 = requests.post(f"{API_URL}/search", json={"topic": topic}).json()
+        r1 = post_api("/search", {"topic": topic})
         search_result = r1["search_result"]
         render_step(step1, "01", "Search Agent", "Gathers recent web information", "done")
 
         render_step(step2, "02", "Reader Agent", "Scrapes & extracts deep content", "running")
-        r2 = requests.post(f"{API_URL}/read", json={"topic": topic, "search_result": search_result}).json()
+        r2 = post_api("/read", {"topic": topic, "search_result": search_result})
         scraped_result = r2["scraped_result"]
         render_step(step2, "02", "Reader Agent", "Scrapes & extracts deep content", "done")
 
         render_step(step3, "03", "Writer Chain", "Drafts the full research report", "running")
-        r3 = requests.post(f"{API_URL}/write", json={"topic": topic, "search_result": search_result, "scraped_result": scraped_result}).json()
+        r3 = post_api("/write", {
+            "topic": topic,
+            "search_result": search_result,
+            "scraped_result": scraped_result,
+        })
         report = r3["report"]
         render_step(step3, "03", "Writer Chain", "Drafts the full research report", "done")
 
         render_step(step4, "04", "Critic Chain", "Reviews & scores the report", "running")
-        r4 = requests.post(f"{API_URL}/score", json={"report": report}).json()
+        r4 = post_api("/score", {"report": report})
         render_step(step4, "04", "Critic Chain", "Reviews & scores the report", "done")
 
         # Results ko session_state mein save karo
@@ -237,10 +265,10 @@ if st.session_state.report:
     if st.session_state.score and st.session_state.score < 7:
         if st.button("🔁 Refine Report"):
             try:
-                r5 = requests.post(f"{API_URL}/refine", json={
+                r5 = post_api("/refine", {
                     "report": st.session_state.report,
                     "feedback": st.session_state.feedback
-                }).json()
+                })
                 refined = r5["refined_report"]
 
                 st.markdown('<div class="report-container">', unsafe_allow_html=True)
