@@ -6,7 +6,6 @@ from Backend.pipeline import research_pipeline, refine_report, run_search, run_r
 app = FastAPI(title="Multi-Agent Research API")
 
 
-# ---- /search ----
 class SearchRequest(BaseModel):
     topic: str
 
@@ -27,7 +26,6 @@ def search(request: SearchRequest):
     return SearchResponse(search_result=result)
 
 
-# ---- /read ----
 class ReadRequest(BaseModel):
     topic: str
     search_result: str
@@ -79,8 +77,7 @@ def score(request: ScoreRequest):
 
     return ScoreResponse(feedback=result["feedback"], score=result["score"])
 
-
-# ---- /research (poora pipeline ek call mein — doosre clients ke liye) ----
+# full pipeline in one API call
 class ResearchRequest(BaseModel):
     topic: str
 

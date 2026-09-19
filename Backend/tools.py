@@ -25,8 +25,6 @@ def web_search(query:str)->str:
         )
     return "\n--------\n".join(output)
 
-# print(web_search.invoke("Find recent, reliable and detailed information about: Virat Kohli"))
-
 @tool 
 def scrape_url(url:str)->str:
     """
@@ -43,5 +41,4 @@ def scrape_url(url:str)->str:
     except Exception as e:
         return f"Error scraping the URL: {e}"
     
-# print(scrape_url.invoke("https://en.wikipedia.org/wiki/Virat_Kohli"))
 
