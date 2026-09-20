@@ -147,9 +147,7 @@ Once the report is ready, BrainForge presents the final research report along wi
                              ▼      ▼
                         Improved   Sources
                          Report
-
-
-
+```
 
 
 🛠️ Technologies Used
@@ -161,7 +159,7 @@ Web Search
 Prompt Engineering
 Multi-Agent Architecture
 
-Live Link:    https://brainforge-multiagent-researcher-by-nabeel.streamlit.app/
+Live Link:   https://brainforge-multiagent-researcher-by-nabeel.streamlit.app/
 
 🤝 Feedback
 
