@@ -68,8 +68,7 @@ st.markdown("""
         font-size: 15px;
     }
     .stButton button {
-        background: linear-gradient(90deg, #ff7a18, #ff9d3a);
-        color: white;
+        color: #ffffff;
         border: none;
         border-radius: 8px;
         padding: 12px 20px;
@@ -78,8 +77,10 @@ st.markdown("""
         width: 100%;
     }
     .stButton button:hover {
-        background: linear-gradient(90deg, #ff8a2e, #ffad4a);
-        color: white;
+        background: #ff9d3a;
+        color: black;
+        border: none;
+        font-weight: 600;
     }
 
     /* ---- Pipeline Cards ---- */
